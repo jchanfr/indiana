@@ -54,7 +54,12 @@ if (empty($_POST['quantite'])) {
   $err_quantite = "Champ obligatoire";
   }
 else {
-  $quantite = mysqli_real_escape_string($link, $_POST['quantite']);
+    if (!is_numeric($_POST['quantite'])) {
+    $err_quantite = "Merci de saisir un nombre.";
+    }
+    else {
+    $quantite = mysqli_real_escape_string($link, $_POST['quantite']);
+    }
  };
 
  if (empty($_POST['action_url'])) {
@@ -74,9 +79,11 @@ else {
 // Tentative d'exécution de la requête d'insertion
 if (empty($err_campagne) && empty($err_document) && empty($err_quantite) && empty($err_action_url) && empty($err_serial1))
 {
-$sql = "INSERT INTO tracking (campagne, document, quantite, action_url, serial1) VALUES ('$campagne', '$document', '$quantite', '$action_url', '$serial1')";
+$id_user = $_SESSION["id"];
+$sql = "INSERT INTO tracking (campagne, document, quantite, action_url, serial1,id_user) VALUES ('$campagne', '$document', '$quantite', '$action_url', '$serial1','$id_user')";
 if(mysqli_query($link, $sql)){
-    echo "Votre campagne -$campagne- -$document- est bien générée.";
+  header('Location: campagne_generee.php');
+  exit();
     } else {
     echo "ERREUR: impossible d'exécuter $sql. " . mysqli_error($link);
   }
