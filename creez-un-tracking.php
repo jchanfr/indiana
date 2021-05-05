@@ -22,6 +22,8 @@ $action_url = '';
 $err_action_url = '';
 $serial1 = '';
 $err_serial1 = '';
+$url = '';
+$err_url = '';
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -43,6 +45,13 @@ if (empty($_POST['campagne'])) {
 else {
    $campagne = mysqli_real_escape_string($link, $_POST['campagne']);
  };
+ if (empty($_POST['url'])) {
+    $err_url = "Champ obligatoire";
+  }
+ else {
+    $url = $_POST['url'];
+  };
+
 
  if (empty($_POST['document'])) {
     $err_document = "Champ obligatoire";
@@ -77,10 +86,10 @@ else {
 
 
 // Tentative d'exécution de la requête d'insertion
-if (empty($err_campagne) && empty($err_document) && empty($err_quantite) && empty($err_action_url) && empty($err_serial1))
+if (empty($err_campagne) && empty($err_document) && empty($err_quantite) && empty($err_action_url) && empty($err_serial1) && empty($err_url))
 {
 $id_user = $_SESSION["id"];
-$sql = "INSERT INTO tracking (campagne, document, quantite, action_url, serial1,id_user) VALUES ('$campagne', '$document', '$quantite', '$action_url', '$serial1','$id_user')";
+$sql = "INSERT INTO tracking (campagne, document, quantite, action_url, serial1,id_user,url) VALUES ('$campagne', '$document', '$quantite', '$action_url', '$serial1','$id_user','$url')";
 if(mysqli_query($link, $sql)){
   header('Location: campagne_generee.php');
   exit();
@@ -132,6 +141,9 @@ mysqli_close($link);
 
                                     <div class="col-md-12">  <input placeholder="Type d'action" type="text" name="action_url" class="form-control <?php echo (empty($action_url)) ? 'is-invalid' : ''; ?>" value="<?php echo $action_url; ?>">
                                     <span class="invalid-feedback"><?php echo $err_action_url ?></span> </div>
+
+                                    <div class="col-md-12">  <input placeholder="URL de votre site" type="text" name="url" class="form-control <?php echo (empty($url)) ? 'is-invalid' : ''; ?>" value="<?php echo $url; ?>">
+                                    <span class="invalid-feedback"><?php echo $err_url ?></span> </div>
 
                                     <div class="col-md-12">  <input placeholder="Votre clé de tracking" aria-label="Recipient's serial1" aria-describedby="button-addon2" id="input1" type="text" name="serial1" class="form-control <?php echo (!empty($serial1)) ? 'is-invalid' : ''; ?>" value="<?php echo $serial1; ?>">
                                     <span class="invalid-feedback"><?php echo $err_serial1 ?></span> </div>

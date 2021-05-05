@@ -131,7 +131,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             }
 
 
-              $sql = "SELECT serial1, url, id, campagne, document, quantite,Active FROM tracking WHERE id = " . $id;
+              $sql = "SELECT serial1, action_url, url, id, campagne, document, quantite,Active FROM tracking WHERE id = " . $id;
 
 
               if ($stmt = mysqli_prepare($link, $sql)) {
@@ -140,7 +140,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 mysqli_stmt_execute($stmt);
 
                 /* Association des variables de résultat */
-                mysqli_stmt_bind_result($stmt, $serial1, $url, $idu, $campagne, $document, $quantite,$Active);
+                mysqli_stmt_bind_result($stmt, $serial1, $action_url, $url, $idu, $campagne, $document, $quantite,$Active);
 
                 /* Lecture des valeurs */
                 while (mysqli_stmt_fetch($stmt)) {
@@ -162,7 +162,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                           <input class="form-control" type="text" value="Nom de la campagne: <?php echo " $campagne " ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
                           <input class="form-control" type="text" value="Type de document: <?php echo " $document " ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
                           <input class="form-control" type="text" value="Nombre de Flyer: <?php echo " $quantite " ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
-                            <input class="form-control" type="text" value="Type d'action: <?php echo " $url" ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
+                          <input class="form-control" type="text" value="Type d'action: <?php echo " $action_url" ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
+                          <input class="form-control" type="text" value="URL: <?php echo " $url" ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
+
                           <!-- COPIE URL-->
                           <input type="text" value="https://marketing-metrics.indianaprint.fr/<?php echo "$serial1" ?>" id="myInput"><br/><br/>
                           <a class="btn block btn--primary type--uppercase" onclick="myFunction()">
