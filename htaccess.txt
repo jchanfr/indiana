@@ -1,0 +1,10 @@
+#Rewrite everything to https
+
+Options +FollowSymlinks
+RewriteEngine On
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteBase /
+RewriteRule ^([A-Za-z0-9+]+)$ /redirect.php?c=$1 [NC]

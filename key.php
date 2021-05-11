@@ -30,6 +30,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZK6TCE8FGH"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-ZK6TCE8FGH');
+        </script>
+
     </head>
     <body class=" ">
         <a id="start"></a>
@@ -70,10 +80,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                   </ul>
                 </div>
                 <div class="text-block">
-                    <a class="btn block type--uppercase" href="#">
+                    <a class="btn block type--uppercase" href="creez-un-tracking.php">
                         <span class="btn__text">Nouvelle campagne</span>
                     </a>
-                    <a class="btn block btn--primary type--uppercase" href="#">
+                    <a class="btn block btn--primary type--uppercase" href="/logout.php">
                         <span class="btn__text">Déconnexion</span>
                     </a>
                 </div>
@@ -150,13 +160,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
              <section class="text-left">
                  <div class="container ">
                      <div class="row ">
-                         <div class="col-md-10">
+                         <div class="col-md-12">
                           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?i=" . $id; ?>" method="post">
                           <div class="input-checkbox input-checkbox--switch">
                         	<input id="checkbox-switch" type="checkbox" name="active" <?php if ($Active == 1) echo "checked" ?>>
                         	<label for="checkbox-switch"></label>
                           </div>
-                          <span>Campagne Inactive/Active</span>
+                          <span><b>Campagne Inactive / Active</b> <i>(Cliquez ensuite sur Enregistrez les modifications)</i></span>
+                          <br/><br/>
 
                           <input class="form-control" type="text" value="ID: <?php echo " $idu " ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
                           <input class="form-control" type="text" value="Nom de la campagne: <?php echo " $campagne " ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
@@ -165,13 +176,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                           <input class="form-control" type="text" value="Type d'action: <?php echo " $action_url" ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
                           <input class="form-control" type="text" value="URL: <?php echo " $url" ?>" placeholder="Disabled input" aria-label="Disabled input example" disabled><br />
 
-                          <!-- COPIE URL-->
-                          <input type="text" value="https://marketing-metrics.indianaprint.fr/<?php echo "$serial1" ?>" id="myInput"><br/><br/>
-                          <a class="btn block btn--primary type--uppercase" onclick="myFunction()">
-                              <span class="btn__text">Copiez l'url</span>
-                          </a>
+                          <div class="container">
+                              <div class="row ">
+
+                              <!-- COPIE URL-->
+                              <div class="col-md-10">
+                                 <input type="text" value="https://metrics.indianaprint.fr/<?php echo "$serial1" ?>" id="myInput">
+                             </div>
+                                <a class="btn block btn-secondary type--uppercase" onclick="myFunction()">
+                                  <span class="btn__text">Copiez l'url</span>
+                                </a>
+                             </div>
+                             <br/>
+                           </div>
                          </div>
-                         <div class="col-md-10"> <button class="btn btn--primary type--uppercase" name="submit" type="submit">Enregistrez les modifications</button></div>
+                         <div class="col-md-12"> <button class="btn btn--primary type--uppercase" name="submit" type="submit">Enregistrez les modifications</button></div>
                          </form>
                      </div>
                  </div>
@@ -212,7 +231,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <i class="stack-interface stack-up-open-big"></i>
         </a>
 
-        /* script de copie de l'url */
         <script>
               function myFunction() {
         /* Get the text field */

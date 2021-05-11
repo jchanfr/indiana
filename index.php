@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Valider les identifiants
     if(empty($email_err) && empty($password_err)){
         // Préparer une instruction select
-        $sql = "SELECT id, email, password FROM users WHERE email = ?";
+        $sql = "SELECT id, email, password, demande_mdp FROM users WHERE email = ?";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Lier les variables à l'instruction préparée en tant que paramètres
@@ -52,9 +52,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               // Vérifiez si l'e-mail existe, si oui, vérifiez le mot de passe
                 if(mysqli_stmt_num_rows($stmt) == 1){
                     // Lier les variables de résultat
-                    mysqli_stmt_bind_result($stmt, $id, $email, $hashed_password);
+                    mysqli_stmt_bind_result($stmt, $id, $email, $hashed_password,$demande_mdp);
                     if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
+
+                          if($demande_mdp == 1){ // On remet à zéro la demande de nouveau mot de passe s'il y a bien un couple mail / mot de passe
+                            $sql = "UPDATE users SET demande_mdp = 0 WHERE id = $id";
+                            if ($link->query($sql) === TRUE) {
+                              echo "Record updated successfully";
+                            } else {
+                              echo "Error updating record: " . $link->error;
+                            }
+
+                            }
                             // Le mot de passe est correct, alors démarrez une nouvelle session
                             session_start();
 
@@ -62,6 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["email"] = $email;
+
 
                             // Redirige l'utilisateur vers la page d'accueil
                             header("location: index.php");
@@ -101,6 +112,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700" rel="stylesheet">
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZK6TCE8FGH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-ZK6TCE8FGH');
+  </script>
+
     </head>
     <body data-smooth-scroll-offset="77">
         <div class="nav-container"> </div>
@@ -125,7 +146,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <span class="invalid-feedback"><?php echo $password_err; ?></span> </div>
                                     <div class="col-md-12"> <button class="btn btn--primary type--uppercase" type="submit" value="Login">Connectez-vous</button> </div>
                                 </div>
-                            </form> <span class="type--fine-print block">  Vous n'avez pas encore de compte ?&nbsp;<a href="inscription.php">Créer un compte</a></span> <span class="type--fine-print block">Votre mot de passe oublié ?&nbsp;<a href="#">Récupérer le compte</a></span> </div>
+                            </form> <span class="type--fine-print block">  Vous n'avez pas encore de compte ?&nbsp;<a href="inscription.php">Créer un compte</a></span> <span class="type--fine-print block">Votre mot de passe oublié ?&nbsp;<a href="mdp_oublie.php">Récupérer le compte</a></span> </div>
                     </div>
                 </div>
             </section>

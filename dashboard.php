@@ -31,6 +31,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZK6TCE8FGH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-ZK6TCE8FGH');
+  </script>
+
     </head>
     <body class=" ">
         <a id="start"></a>
@@ -235,7 +245,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 														<span class=""><?php echo " $quantite " ?></span>
 													</div>
 													<div class="col-2">
-														<span class=""><?php echo "<a href='./redirect.php?c=". $serial1 ."&l=".$url ."'> URL</a><br />"; ?></span>
+														<span class=""><?php echo "<a href='/". $serial1 ."'> URL</a><br />"; ?></span>
 													</div>
 													<div class="col-1">
 														<span><font color="#e82083">##</font></span>
@@ -261,40 +271,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 									?>
 
-
-<!--
-                                    <hr />
-                                    <div class="row">
-                                                <div class="col-1">
-                                                    <span class="h5">ID:</span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <span class="">Nom de la campagne</span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <span class="">Affiches</span>
-                                                </div>
-                                                <div class="col-1">
-                                                    <span class="">1000</span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <span class="">Landing Page</span>
-                                                </div>
-                                                <div class="col-1">
-                                                    <span><font color="#e82083">100</font></span>
-                                                </div>
-                                                <div class="col-1">
-                                                      <i class="icon-Gear" style="color:#0062cc;font-size: 1.5em"></a></i>
-                                                </div>
-                                                <div class="col-2 text-right">
-                                                  <a class="btn-sm btn-primary  type--uppercase" href="#">
-                                                      <span class="btn__text">Analysez</span>
-                                                  </a>
-                                                </div>
-                                      </div>
-                                    <hr />
--->
-
                                 </div>
                             </div>
                         </div>
@@ -307,8 +283,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 </div>
                 <!--end of container-->
             </section>
-
-
 
 
             <footer class="text-center space--sm footer-5  ">

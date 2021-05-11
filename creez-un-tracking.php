@@ -27,7 +27,7 @@ $err_url = '';
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-if (1==0)
+if (1==1)
 $link = mysqli_connect("indianapbpmetric.mysql.db", "indianapbpmetric", "Indiana01", "indianapbpmetric");
 else {
   $link = mysqli_connect("localhost", "root", "", "indiana");
@@ -114,8 +114,15 @@ mysqli_close($link);
         <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700" rel="stylesheet">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZK6TCE8FGH"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-
+          gtag('config', 'G-ZK6TCE8FGH');
+        </script>
     </head>
     <body data-smooth-scroll-offset="77">
         <div class="nav-container"> </div>
