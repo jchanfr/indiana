@@ -8,22 +8,31 @@ require_once "config.php";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	$valid = true;
 	$mail = $_POST["mail"];
-	$mail = trim($mail);
+	$mail = htmlentities(strtolower(trim($mail)));
 	if (empty($mail)) {
-$valid = false;
-$er_mail = "Il faut mettre un mail";
-}
+		$valid = false;
+		$er_mail = "Il faut mettre un mail";
+	}
 
 if ($valid){
-$sql = "SELECT email, demande_mdp FROM users WHERE email = " . $mail;
-$result = $link->query($sql);
-if ($result->num_rows > 0) {
-		$row = $result->fetch_assoc();
-		if ($row['demande_mdp'] == 0){
+	$sql = "SELECT email, demande_mdp FROM users WHERE email = \"$mail\"";
+	if ($stmt = mysqli_prepare($link, $sql)) {
+	//mysqli_stmt_bind_param($stmt, "s", $param_email);
+	//$param_email = "'".$mail."'";
+	echo "prepare OK";
+	}
+	else { echo "pas de user avec cet email: $mail- exit"; exit; }
+	if(mysqli_stmt_execute($stmt)){
+			echo "exe OK";
+			// Stocker le résultat
+			mysqli_stmt_bind_result($stmt, $mail, $demande_mdp);
+      if (mysqli_stmt_fetch($stmt)) {
+
+		  	if ($demande_mdp == 0){
 				$new_pass = rand();
 				$new_pass_crypt = password_hash($new_pass, PASSWORD_DEFAULT);
 				$objet = 'Nouveau mot de passe';
-				$to = $row['email'];
+				$to = $mail;
 				$header = "From: INDIANAPRINT <no-reply@test.com> \n";
 				$header .= "Reply-To: ".$to."\n";
 				$header .= "MIME-version: 1.0\n";
@@ -36,18 +45,20 @@ if ($result->num_rows > 0) {
 				$contenu .="</body>";
 				$contenu .="</html>";
 				mail($to, $objet, $contenu, $header);
-				$email = $row['email'];
-				$sql = "UPDATE users SET password = $new_pass_crypt, demande_mdp = 1 WHERE email = " . $email;
-				if ($link->query($sql) === TRUE) {
+				mysqli_stmt_close($stmt);
+
+				$sql = "UPDATE users SET password = \"$new_pass_crypt\", demande_mdp = 1 WHERE email = \"$mail\"";
+				if (mysqli_query($link,$sql) === TRUE) {
 						echo "Record updated successfully";
+						header('Location: mdp_envoye.php');
+						exit;
 					} else {
 						echo "Error updating record: " . $link->error;
 					};
-};
-};
-header('Location: index.php');
-exit;
-}; // valid
+				}
+			}
+		}
+	}; // valid
 }; // serveur POST
 
  ?>
